@@ -1,4 +1,4 @@
-# EOS VM - A Low-Latency, High Performance and Extensible WebAssembly Engine
+# EOS VM - A Low-Latency, High Performance and Extensible WebAssembly Engine - 一个低延迟，高性能和可扩展的WebAssembly引擎
 
 - Extremely Fast Execution - 极快的执行(比WABT快6倍)
 - Extremely Fast Parsing/Loading - 极其快速解析/加载(比WABT快20倍)
@@ -30,7 +30,7 @@ All of the existing libraries incorporate a large code base designed and impleme
 
 所有现有的库都包含了一个大型的代码库，这些代码库是由没有接受过区块链开发严格培训的工程师设计和实现的。这使得代码很难审计，也很难跟上上游的变化/安全漏洞。
 
-With WebAssembly (Wasm) becoming ever more ubiquitous, there is a greater need for a succinct implementation of a Wasm backend.  We implemented __EOS VM__ because all existing backends we evaluated fell short in meeting our needs for a Wasm backend best suited for use in a public blockchain environment. 
+With WebAssembly (Wasm) becoming ever more ubiquitous, there is a greater need for a succinct implementation of a Wasm backend.  We implemented __EOS-VM__ because all existing backends we evaluated fell short in meeting our needs for a Wasm backend best suited for use in a public blockchain environment. 
 
 随着WebAssembly (Wasm)变得越来越普遍，对简洁的Wasm后端实现的需求越来越大。我们实现EOS VM是因为我们评估的所有现有后端都无法满足我们对最适合在公共区块链环境中使用的Wasm后端的需求。
 
@@ -39,9 +39,9 @@ Given that all programs on the blockchain must be deterministic, floating point 
 
 由于区块链上的所有程序都必须是确定性的，所以我们对浮点运算特别感兴趣。由于舍入模式、nan和非正常模式的不确定性本质，必须特别注意确保所有支持平台上的确定性环境。这是以“softfloat”的形式出现的，这是一个IEEE-754浮点算法的软件实现，进一步限制以确保确定性。如果不需要这种确定性，则仍然可以通过编译时定义使用基于硬件的浮点运算。
 
-Any secondary limits/constraints (i.e. stack size, call depth, etc.) can cause consensus failures if these restrictions do not match any previous backend that was in place, __EOS VM__ has all of these constraints user definable through either a compile-time system or run-time based on the use case and data type involved.
+Any secondary limits/constraints (i.e. stack size, call depth, etc.) can cause consensus failures if these restrictions do not match any previous backend that was in place, __EOS-VM__ has all of these constraints user definable through either a compile-time system or run-time based on the use case and data type involved.
 
-任何二次限制/约束(即堆栈大小,调用深度,等等)会导致共识失败如果这些限制不匹配任何先前的后端, __EOS_VM__ 拥有所有这些限制用户可定义通过编译时系统或运行时基于用例和数据类型。
+任何二次限制/约束(即堆栈大小,调用深度,等等)会导致共识失败如果这些限制不匹配任何先前的后端, __EOS-VM__ 拥有所有这些限制用户可定义通过编译时系统或运行时基于用例和数据类型。
 
 ## Time Bounded Execution - 时间有限的执行
 The ability to ensure that execution doesn't over run the CPU time that is allotted for a given program is a central component of a resource limited blockchain.  This is satisfied by the watchdog timer system (as mentioned below, this mechanism is also useful for general security). EOS VM's implementation is both fast and efficient compared to prior solutions. 
@@ -65,9 +65,9 @@ WebAssembly was designed to run untrusted code in a browser environment where th
 
 WebAssembly被设计成在浏览器环境中运行不受信任的代码，而最坏的情况就是浏览器被挂起。现有的库，如WABT、WAVM和Binaryen，在设计时都有一些假设，这些假设可能导致无限的内存分配、极长的加载时间和由于递归下降解析或执行而导致的堆栈溢出。
 
-The fundamental data types that make up __EOS VM__ are built with certain invariants from the onset.  This means that explicit checks and validations, which can be error-prone because of programmer forgetfulness, are not needed as the data types themselves maintain these invariants and kill the execution if violated.  
+The fundamental data types that make up __EOS-VM__ are built with certain invariants from the onset.  This means that explicit checks and validations, which can be error-prone because of programmer forgetfulness, are not needed as the data types themselves maintain these invariants and kill the execution if violated.  
 
-构成EOS VM的基本数据类型从一开始就是用某些不变量构建的。这意味着不需要显式的检查和验证，因为数据类型本身会维护这些不变量并在违反时终止执行，而显式的检查和验证可能因为程序员的遗忘而容易出错。
+构成**__EOS-VM__**的基本数据类型从一开始就是用某些不变量构建的。这意味着不需要显式的检查和验证，因为数据类型本身会维护这些不变量并在违反时终止执行，而显式的检查和验证可能因为程序员的遗忘而容易出错。
 
 In addition to these core data types, some of the special purpose allocators utilize the security of the CPU and core OS to satisfy that memory is properly sandboxed (a guard paging mechanism).  
 
@@ -117,7 +117,7 @@ Given the needs of the end user, integration can be as simple as pointing to the
 
 __EOS-VM__ utilizes __CMake__ which allows integration into a project to be as little as adding `eos-vm` to the list of targets in the `target_link_libraries`.
 
-EOS-VM利用了CMake，它允许集成到一个项目中，只需将EOS-VM添加到target_link_libraries的目标列表中。
+__EOS-VM__利用了__CMake__，它允许集成到一个项目中，只需将 `eos-vm` 添加到 `target_link_libraries` 的目标列表中。
 
 If the need is only single-threaded a self-contained backend type is defined for the user to encapsulate all the components needed, which allows for source code integration to be constructing an instance of that type and adding "host functions" to the `registered_host_functions`.  Registering the host functions is as easy as calling a function with the function/member pointer and supplying the Wasm module name and function name.
 
@@ -130,11 +130,11 @@ If multi-threaded execution is needed (i.e. multiple backends running at once), 
 ## Highly Extensible Design - 高度可扩展的设计
 Given the __EOS-VM__ variant type and visitor system, new backends with custom logic can be easily defined and allows the same level of flexibility and code reuse as a much more heavyweight OOP __Visitor__ or __Listener__ design.
 
-有了EOS-VM的变体类型和访问者系统，可以很容易地定义具有自定义逻辑的新后端，并允许与更重量级的OOP访问者或侦听器设计具有相同级别的灵活性和代码重用。
+有了 __EOS-VM__ 的变体类型和访问者系统，可以很容易地定义具有自定义逻辑的新后端，并允许与更重量级的OOP __Visitor__ 或 __Listener__ 设计具有相同级别的灵活性和代码重用。
 
 Since the design of __EOS-VM__ is component based, with each component being very self-contained, new backends or tools for Wasm can be crafted from previously defined components while only needing to define the logic for the extended functionality that is needed, with very little, to no, boilerplate needed.
 
-由于EOS-VM的设计是基于组件的，每个组件都是非常自包含的，所以可以从以前定义的组件中制作新的Wasm后端或工具，而只需要为所需要的扩展功能定义逻辑，几乎不需要样板文件。
+由于 __EOS-VM__ 的设计是基于组件的，每个组件都是非常自包含的，所以可以从以前定义的组件中制作新的Wasm后端或工具，而只需要为所需要的扩展功能定义逻辑，几乎不需要样板文件。
 
 Extensions to Wasm itself can be made by simply defining the new section (aka C++ class field) for the module and the function needed to parse an element of that section.  This will allow for tooling to be constructed at a rapid pace for custom Wasms for a multitude of needs (debugging, profiling, etc.).
 
@@ -156,4 +156,4 @@ See [LICENSE](./LICENSE) for copyright and license terms.
 
 All repositories and other materials are provided subject to the terms of this [IMPORTANT](./IMPORTANT.md) notice and you must familiarize yourself with its terms.  The notice contains important information, limitations and restrictions relating to our software, publications, trademarks, third-party resources, and forward-looking statements.  By accessing any of our repositories and other materials, you accept and agree to the terms of the notice.
 
-版权声明请参阅许可证。block.one作为EOSIO社区成员的自愿贡献，不负责确保软件或任何相关应用程序的整体性能。我们不就本软件或任何相关文件作出任何明示或暗示的声明、保证、保证或承诺，包括但不限于对适销性、适合某一特定用途及不侵权的保证。在任何情况下，我们都不对任何索赔、损害赔偿或其他责任负责，无论是在合同、侵权或其他行为中，或与软件或文件或软件或文件的使用或其他交易有关的，或由软件或文件引起的或与之有关的。任何测试结果或性能数据都是指示性的，并不能反映在所有条件下的性能。对任何第三方或第三方产品、服务或其他资源的任何引用都不是Block.one的认可或推荐。对于您使用或依赖任何此等资源，我们概不负责，并拒绝承担任何及所有责任和责任。第三方资源可能会随时更新、更改或终止，所以这里的信息可能已经过期或不准确。任何使用或提供本软件与向第三方提供软件、商品或服务有关的人，应将本许可条款、免责声明和免责责任通知该第三方。块。1、EOSIO、EOSIO Labs、EOS、the seven - tahedron and associated logos均为Block.one的商标。
+所有存储库和其他材料的提供均受此[IMPORTANT](./IMPORTANT.md)通知的条款约束，您必须熟悉其条款。该通知包含与我们的软件、出版物、商标、第三方资源和前瞻性声明有关的重要信息、限制和限制。通过访问我们的仓库和其他材料，您接受并同意该通知的条款。
