@@ -7,14 +7,17 @@ Since __EOS-VM__ is designed to be a header only library (with the exception of 
 
 ## Using The Example Tools - 使用示例工具
 Once you have built __EOS-VM__ you will notice 3 tools in the directory **build/tools**. You can run your test WASMs by executing the command `eos-vm-interp <path>/<wasm name>.wasm`, this will then run all exported functions within that WASM.  You can also run `bench-interp <path>/<wasm name>.wasm` and get two times in nanoseconds; the time to parse and instantiate your WASM and the time to execute your WASM.  The last tool is `hello-driver`. It is a prebaked in helloworld WASM and uses user input to bound the number of loops the printing occurs and whether it should assert. This tool is an example of how to setup a fully integrated solution with host functions.<br>
-构建完 __EOS-VM__ 后，你会注意到 **build/tools** 目录下有3个工具。您可以通过执行命令 `eos-vm-interp <path>/<wasm name>.wasm` 来运行测试WASM，这将运行该wasm中的所有导出函数。你也可以运行 `bench-interp <path>/<wasm name>.wasm` 纳秒内得到两次解析和实例化WASM的时间，以及执行WASM的时间。最后一个工具是 `hello-driver`。它是helloworld WASM中预生成的，并使用用户输入来绑定打印循环的次数以及是否应该断言。这个工具是如何设置一个具有主机功能的完全集成的解决方案的示例。
+构建完 __EOS-VM__ 后，你会注意到 **build/tools** 目录下有3个工具。<br>
+您可以通过执行命令 `eos-vm-interp <path>/<wasm name>.wasm` 来运行测试WASM，这将运行该wasm中的所有导出函数。<br>
+你也可以运行 `bench-interp <path>/<wasm name>.wasm` 纳秒内得到两次解析和实例化WASM的时间，以及执行WASM的时间。<br>
+最后一个工具是 `hello-driver`。它是helloworld WASM中预生成的，并使用用户输入来绑定打印循环的次数以及是否应该断言。这个工具是如何设置一个具有主机功能的完全集成的解决方案的示例。
 
 These are designed to be modified by the end-user and are simply there to show how to easily integrate __EOS-VM__ into your own project.<br>
-它们被设计成由最终用户修改，只是用来演示如何轻松地将EOS-VM集成到您自己的项目中。
+它们被设计成由最终用户修改，并且非常简单的演示了如何轻松地将 __EOS-VM__ 集成到您自己的项目中。
 
 ## Integrating Into Existing CMake Project - 使用示例工具
 Adding __EOS-VM__ as a submodule to your project and adding the subdirectory that contains __EOS-VM__, and adding **eos-vm** to the list of link libraries of your executables/libraries is all that is required to integrate into your project.  CMake options that can be passed into via command line or with CMake **set**.  These can be found in **CMakeLists.txt** and **modules/EosVMBuildUtils.cmake**, or by running `ccmake ..` instead of `cmake ..`.<br>
-将 __EOS-VM__作为一个子模块添加到你的项目中，添加包含 __EOS-VM__ 的子目录，并将 **eos-vm** 添加到你的可执行文件/库的链接库列表中，这些都是集成到你的项目中所需要的。CMake选项可以通过命令行传递，也可以通过CMake **set** 传递。这些可以在 **CMakeLists.txt** 和 **modules/EosVMBuildUtils.cmake** 中找到。或者运行 `ccmake ..` 而不是 `cmake ..` 。
+将 __EOS-VM__ 作为一个子模块添加到你的项目中，添加包含 __EOS-VM__ 的子目录，并将 **eos-vm** 添加到你的可执行文件/库的链接库列表中，这些都是集成到你的项目中所需要的。CMake选项可以通过命令行传递，也可以通过CMake **set** 传递。这些可以在 **CMakeLists.txt** 和 **modules/EosVMBuildUtils.cmake** 中找到。或者运行 `ccmake ..` 而不是 `cmake ..` 。
 
 ### Getting Started - 开始
  1) Start by creating a type alias of `eosio::vm::backend` with the host function class type.<br>
