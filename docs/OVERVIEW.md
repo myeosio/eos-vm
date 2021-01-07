@@ -7,7 +7,7 @@ Since __EOS-VM__ is designed to be a header only library (with the exception of 
 
 ## Using The Example Tools - 使用示例工具
 Once you have built __EOS-VM__ you will notice 3 tools in the directory **build/tools**. You can run your test WASMs by executing the command `eos-vm-interp <path>/<wasm name>.wasm`, this will then run all exported functions within that WASM.  You can also run `bench-interp <path>/<wasm name>.wasm` and get two times in nanoseconds; the time to parse and instantiate your WASM and the time to execute your WASM.  The last tool is `hello-driver`. It is a prebaked in helloworld WASM and uses user input to bound the number of loops the printing occurs and whether it should assert. This tool is an example of how to setup a fully integrated solution with host functions.<br>
-构建完EOS-VM后，你会注意到 **build/tools** 目录下有3个工具。您可以通过执行命令 `eos-vm-interp <path>/<wasm name>.wasm` 来运行测试WASM，这将运行该wasm中的所有导出函数。你也可以运行 `bench-interp <path>/<wasm name>.wasm` 纳秒内得到两次解析和实例化WASM的时间，以及执行WASM的时间。最后一个工具是 `hello-driver`。它是helloworld WASM中预生成的，并使用用户输入来绑定打印循环的次数以及是否应该断言。这个工具是如何设置一个具有主机功能的完全集成的解决方案的示例。
+构建完 __EOS-VM__ 后，你会注意到 **build/tools** 目录下有3个工具。您可以通过执行命令 `eos-vm-interp <path>/<wasm name>.wasm` 来运行测试WASM，这将运行该wasm中的所有导出函数。你也可以运行 `bench-interp <path>/<wasm name>.wasm` 纳秒内得到两次解析和实例化WASM的时间，以及执行WASM的时间。最后一个工具是 `hello-driver`。它是helloworld WASM中预生成的，并使用用户输入来绑定打印循环的次数以及是否应该断言。这个工具是如何设置一个具有主机功能的完全集成的解决方案的示例。
 
 These are designed to be modified by the end-user and are simply there to show how to easily integrate __EOS-VM__ into your own project.<br>
 它们被设计成由最终用户修改，只是用来演示如何轻松地将EOS-VM集成到您自己的项目中。
@@ -18,19 +18,19 @@ Adding __EOS-VM__ as a submodule to your project and adding the subdirectory tha
 
 ### Getting Started - 开始
  1) Start by creating a type alias of `eosio::vm::backend` with the host function class type.<br>
- 1) 首先创建一个带有主机函数类类型的 `eosio::vm::backend` 类型别名。
+    首先创建一个带有主机函数类类型的 `eosio::vm::backend` 类型别名。<br>
     This class takes an additional optional template argument if wanted.  By default, i.e. left blank, this will create the interpreter `backend`.  If you set this to `eosio::vm::jit`, this will create the JIT based backend.<br>
     如果需要，这个类接受一个额外的可选模板参数。默认情况下，例如留空，这将创建解释器的 `backend`。如果设置为 `eosio::vm::jit`，将创建基于jit的后端。
  2) Next you can create a `watchdog` timer with a specific duration type, and setting the duration to the time interval you need, or use the predefined `null_watchdog` for unbounded execution.  <br>
- 2) 接下来，您可以创建一个具有特定持续时间类型的 `watchdog` 计时器，并将持续时间设置为您需要的时间间隔，或者使用预定义的 `null_watchdog` 进行无界执行
+    接下来，您可以创建一个具有特定持续时间类型的 `watchdog` 计时器，并将持续时间设置为您需要的时间间隔，或者使用预定义的 `null_watchdog` 进行无界执行
  3) You should now read the WASM file.  The `eosio::vm::backend` class has a method to read from a file or you can use a `std::vector<uint8_t>` that already contains the WASM.  This gets passed to the constructor of `eosio::vm::backend`.<br>
- 3) 现在应该读取WASM文件。 `eosio::vm::backend` 类有一个方法可以从文件中读取，或者你可以使用 `std::vector<uint8_t>` 它已经包含了WASM。这将被传递给 `eosio::vm::backend`的构造器。
+    现在应该读取WASM文件。 `eosio::vm::backend` 类有一个方法可以从文件中读取，或者你可以使用 `std::vector<uint8_t>` 它已经包含了WASM。这将被传递给 `eosio::vm::backend`的构造器。
  4) You should register and resolve any host functions, please see the **Adding Host Functions** section.<br>
- 4) 你应该注册和解析任何主机函数，请参阅**添加主机函数**部分。
+    你应该注册和解析任何主机函数，请参阅**添加主机函数**部分。
  5) You can now construct your `backend` object by passing in the read WASM code and an instance of the `registered_host_functions` class which houses your imports.<br>
- 5) 现在，您可以通过传入读取的WASM代码和存放导入的 `registered_host_functions` 类的实例来构造您的`backend` 对象。
+    现在，您可以通过传入读取的WASM代码和存放导入的 `registered_host_functions` 类的实例来构造您的`backend` 对象。
  6) Finally, you can execute a specific export via the `()` operator of `eosio::vm::backend`. This takes the host function instance reference, the module name, the export name and typesafe export arguments. (see **/tools/interp.cpp** and **/tools/hello_driver.cpp** for more details)<br>
- 6) 最后，你可以通过 `eosio::vm::backend`的 `()` 操作符来执行特定的导出。它接受宿主函数实例引用、模块名称、导出名称和类型安全导出参数。(见 **/tools/interp.cpp** 和 **/tools/hello_driver.cpp** 了解更多详情)
+    最后，你可以通过 `eosio::vm::backend`的 `()` 操作符来执行特定的导出。它接受宿主函数实例引用、模块名称、导出名称和类型安全导出参数。(见 **/tools/interp.cpp** 和 **/tools/hello_driver.cpp** 了解更多详情)
 
 ### Adding Host Functions - 添加主机的功能
 Without any host functions, your WASM execution is going to be very limited (you will not be able to observe side effects or get intermediate values).  <br>
